@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
-import { NavLink ,useNavigate} from "react-router-dom"
+import React, { useState } from 'react';
+import { NavLink ,useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-
+import { useContext } from 'react';
+import { LoginContext } from './ContextProvider/Context';
 
 const Login = () => {
-
+    const { logindata, setLoginData } = useContext(LoginContext);
     const [passShow, setPassShow] = useState(false);
 
     const [inpval, setInpval] = useState({
         email: "",
         password: "",
     });
+
+    
 
     const history = useNavigate();
 
@@ -49,7 +52,7 @@ const Login = () => {
                 position: "top-center"
             });
         } else {
-            // console.log("user login succesfully done");
+            
 
 
             const data = await fetch("/login",{
@@ -58,18 +61,41 @@ const Login = () => {
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
-                     email, password
+                      "referer":"", email, password
                 })
             });
 
-            const res = await data.json();
-            //  console.log(res);
+            const resone = await data.json();
+            const tokenVar = resone.token;
+            // console.log("bearer " + tokenVar);
+            const data2 = await fetch("/checkAuthentication",{
+                method:"GET",
+                headers:{
+                    "Authorization": "Bearer " + tokenVar,
+                    "Content-Type":"application/json"
+                },
+                
+            });
+             
+            const res = await data2.json();
+            console.log(res.status);
+            if(res.status === "pass"){
+               
+              
+                
+                localStorage.setItem("usersdatatoken",resone.token);
+                // setData(true);
+                history("/dash");
+                
 
-            if(res.status === 201){
-                localStorage.setItem("usersdatatoken",res.result.token);
-                history("/dash")
                 setInpval({...inpval,email:"",password:""});
             }
+            else {
+              toast.error("Invalid credentials!", {
+                position: "top-center"
+            });
+            }
+
         }
     }
 
@@ -78,16 +104,16 @@ const Login = () => {
     <section className="w-full py-10 min-h-screen">
       <div className="form_data max-w-lg w-full mx-auto p-6 bg-white shadow-md rounded flex flex-col items-center">
         <div className="form_heading mb-10"> {/* Reduced margin from mb-6 to mb-4 */}
-          <h1 className="text-2xl text-blue-900">Login to Intaligen</h1>
+          <h1 className="text-3xl text-gray-900">Login to Intaligen</h1>
         </div>
 
         <form className="w-full">
           <div className="form_input">
-            <label htmlFor="email" className="block font-semibold text-gray-700 text-sm mb-2">Email</label>
+            <label htmlFor="email" className="block font-semibold text-blue-900 text-sm mb-2">Email</label>
             <input type="email" value={inpval.email} onChange={setVal} name="email" id="email" className="w-full px-3 py-2 border rounded outline-none text-gray-700 leading-tight focus:border-blue-500 mb-3" placeholder="Enter Your Email Address" />
           </div>
           <div className="form_input">
-            <label htmlFor="password" className="block font-semibold text-gray-700 text-sm mb-2">Password</label>
+            <label htmlFor="password" className="block font-semibold text-blue-900 text-sm mb-2">Password</label>
             <div className="two relative">
               <input type={!passShow ? "password" : "text"} onChange={setVal} value={inpval.password} name="password" id="password" className="w-full px-3 py-2 border rounded outline-none text-gray-700 leading-tight focus:border-blue-500 mb-6" placeholder="Enter Your password" />
               <div className="showpass absolute top-0 right-0 px-2 py-1 mr-1 mt-0.5 font-semibold text-blue-900 bg-gray-200 border rounded cursor-pointer" onClick={() => setPassShow(!passShow)}>
@@ -97,7 +123,7 @@ const Login = () => {
           </div>
 
           
-          <button className="btn bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" onClick={loginuser}>Login</button>
+          <button className="btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" onClick={loginuser}>Login</button>
 
           <p className="text-sm mt-4 text-center">Don't have an Account? <NavLink to="/register" className="text-violet-500">Sign Up</NavLink> </p>
         </form>
@@ -110,4 +136,4 @@ const Login = () => {
 
 }
 
-export default Login
+export default Login;

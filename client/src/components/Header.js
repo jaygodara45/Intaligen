@@ -1,11 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { LoginContext } from './ContextProvider/Context';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate , NavLink } from "react-router-dom"
+import { useNavigate , NavLink } from "react-router-dom";
+
+
+
 
 const Header = () => {
+  
 
     const { logindata, setLoginData } = useContext(LoginContext);
 
@@ -28,7 +33,7 @@ const Header = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": token,
+                "Authorization": "Bearer " + token,
                 Accept: "application/json"
             },
             credentials: "include"
@@ -37,7 +42,8 @@ const Header = () => {
         const data = await res.json();
         console.log(data);
 
-        if (data.status == 201) {
+        if (data.msg === 'logout successful') {
+            // alert("logged out");
             console.log("use logout");
             localStorage.removeItem("usersdatatoken");
             setLoginData(false)
@@ -61,7 +67,14 @@ const Header = () => {
   <>
     <header className="w-full h-20 bg-white shadow-md">
       <nav className="max-w-7xl h-full mx-auto flex justify-between items-center px-4">
-        <NavLink to="/" className="text-xl font-bold text-gray-800">Intaligen</NavLink>
+        <NavLink to="/" className="text-xl font-bold text-gray-800 flex flex-row">
+          <img
+          className="h-8 object-cover object-center"
+          src="intaligen_logo.png"
+          alt="logo"
+          />
+          <p className='ml-2'>Intaligen</p>
+        </NavLink>
         <div className="avtar">
           {
             logindata.ValidUserOne ? 
@@ -70,7 +83,7 @@ const Header = () => {
                 style={{ background: "salmon", fontWeight: "bold", textTransform: "capitalize" }} 
                 onClick={handleClick}
               >
-                {logindata.ValidUserOne.fname[0].toUpperCase()}
+                {logindata.ValidUserOne.name[0].toUpperCase()}
               </Avatar> :
               <Avatar className="cursor-pointer" style={{ background: "blue" }} onClick={handleClick} />
           }
@@ -87,7 +100,7 @@ const Header = () => {
         >
           {
             logindata.ValidUserOne ? (
-              <>
+              <div>
                 <MenuItem onClick={() => {
                   goDash()
                   handleClose()
@@ -96,14 +109,14 @@ const Header = () => {
                   logoutuser()
                   handleClose()
                 }}>Logout</MenuItem>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <MenuItem onClick={() => {
                   goError()
                   handleClose()
                 }}>Profile</MenuItem>
-              </>
+              </div>
             )
           }
         </Menu>
