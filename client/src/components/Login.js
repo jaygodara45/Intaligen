@@ -104,28 +104,28 @@ const Login = () => {
     <section className="w-full py-10 min-h-screen">
       <div className="form_data max-w-lg w-full mx-auto p-6 bg-white shadow-md rounded flex flex-col items-center">
         <div className="form_heading mb-10"> {/* Reduced margin from mb-6 to mb-4 */}
-          <h1 className="text-3xl text-gray-900">Login to Intaligen</h1>
+          <h1 className="text-3xl font-sans text-gray-900">Login to Intaligen</h1>
         </div>
 
         <form className="w-full">
           <div className="form_input">
-            <label htmlFor="email" className="block font-semibold text-blue-900 text-sm mb-2">Email</label>
-            <input type="email" value={inpval.email} onChange={setVal} name="email" id="email" className="w-full px-3 py-2 border rounded outline-none text-gray-700 leading-tight focus:border-blue-500 mb-3" placeholder="Enter Your Email Address" />
+            <label htmlFor="email" className="block font-sans font-semibold text-blue-900 text-sm mb-2">Email</label>
+            <input type="email" value={inpval.email} onChange={setVal} name="email" id="email" className="font-sans w-full px-3 py-2 border rounded outline-none text-gray-700 leading-tight focus:border-blue-500 mb-3" placeholder="Enter Your Email Address" />
           </div>
           <div className="form_input">
-            <label htmlFor="password" className="block font-semibold text-blue-900 text-sm mb-2">Password</label>
-            <div className="two relative">
+            <label htmlFor="password" className="block font-semibold text-blue-900 text-sm mb-2 font-sans">Password</label>
+            <div className="two relative font-sans">
               <input type={!passShow ? "password" : "text"} onChange={setVal} value={inpval.password} name="password" id="password" className="w-full px-3 py-2 border rounded outline-none text-gray-700 leading-tight focus:border-blue-500 mb-6" placeholder="Enter Your password" />
-              <div className="showpass absolute top-0 right-0 px-2 py-1 mr-1 mt-0.5 font-semibold text-blue-900 bg-gray-200 border rounded cursor-pointer" onClick={() => setPassShow(!passShow)}>
+              <div className="font-sans showpass absolute top-0 right-0 px-2 py-1 mr-1 mt-0.5 font-semibold text-blue-900 bg-gray-200 border rounded cursor-pointer" onClick={() => setPassShow(!passShow)}>
                 {!passShow ? "Show" : "Hide"}
               </div>
             </div>
           </div>
 
           
-          <button className="btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" onClick={loginuser}>Login</button>
+          <button className="font-sans btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" onClick={loginuser}>Login</button>
 
-          <p className="text-sm mt-4 text-center">Don't have an Account? <NavLink to="/register" className="text-violet-500">Sign Up</NavLink> </p>
+          <p className="font-sans text-sm mt-4 text-center">Don't have an Account? <NavLink to="/register" className="text-violet-500">Sign Up</NavLink> </p>
         </form>
         <ToastContainer />
       </div>

@@ -15,7 +15,7 @@ const Dashboard = () => {
     // const DashboardValid = async () => {
     //     let token = localStorage.getItem("usersdatatoken");
 
-    //     const res = await fetch("/validuser", {
+    //     const res = await fetch("/userdashboard", {
     //         method: "GET",
     //         headers: {
     //             "Content-Type": "application/json",
@@ -36,33 +36,39 @@ const Dashboard = () => {
       const DashboardValid = async () => {
     let token = localStorage.getItem("usersdatatoken");
 
-    // const res = await fetch("/validuser", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": token
-    //   }
-    // });
-
-    // const data = await res.json();
-    
-    const data = {
-        status:200,
-      ValidUserOne:{
-
-        "id" : "12345",
-        "name" : "John Doe",
-        "email": "john.doe@example.com",
-        "age": "30"
+    const res = await fetch("/userdashboard", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
       }
-    };
+    });
 
-    if (data.status == 401 || !data) {
+    const data = await res.json();
+    
+    
+    // const data = {
+    //     status:200,
+    //   ValidUserOne:{
+
+    //     "id" : "12345",
+    //     "name" : "John Doe",
+    //     "email": "john.doe@example.com",
+    //     "age": "30"
+    //   }
+    // };
+    console.log(data.message);
+    if (data.message === "Internal Server Error") {
       console.log("User not valid");
+      history("/");
        
     } else {
+      const finalData = {
+      status:200,
+      ValidUserOne: data
+    }
       console.log("login dataa is set");
-      setLoginData(data)
+      setLoginData(finalData);
       history("/dash");
     }
   
@@ -73,7 +79,7 @@ const Dashboard = () => {
         setTimeout(() => {
             DashboardValid();
             setData(true)
-        }, 2000)
+        }, 100)
 
     }, [])
 
@@ -82,7 +88,7 @@ const Dashboard = () => {
      
     
   <>
-    {data ? (
+    {data.message!="Internal Server Error" ? (
       
       
        

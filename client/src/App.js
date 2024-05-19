@@ -7,6 +7,7 @@ import Error from "./components/Error";
 import { Routes, Route, useNavigate } from "react-router-dom"
 import { useEffect, useContext, useState } from "react";
 import { LoginContext } from "./components/ContextProvider/Context";
+
 import Sidebar from "./components/Sidebar";
 
 function App() {
@@ -21,34 +22,42 @@ function App() {
   const DashboardValid = async () => {
     let token = localStorage.getItem("usersdatatoken");
 
-    // const res = await fetch("/validuser", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": token
-    //   }
-    // });
-
-    // const data = await res.json();
-    
-    const data = {
-        status:200,
-      ValidUserOne:{
-
-        "id" : "12345",
-        "name" : "John Doe",
-        "email": "john.doe@example.com",
-        "age": "30"
+    const res = await fetch("/userdashboard", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
       }
-    };
+    });
 
-    if (data.status == 401 || !data) {
-      console.log("User not valid");
+    const data = await res.json();
+
+    
+    
+    // const data = {
+    //     status:200,
+    //   ValidUserOne:{
+
+    //     "id" : "12345",
+    //     "name" : "John Doe",
+    //     "email": "john.doe@example.com",
+    //     "age": "30"
+    //   }
+    // };
+    console.log(data.message);
+    if (data.message === "Internal Server Error") {
+      console.log("User not valid app.js");
+      history("/");
        
-    } else {
+    } 
+    else {
+          const finalData = {
+          status:200,
+          ValidUserOne: data
+        }
       console.log("login dataa is set");
-      setLoginData(data)
-      history("/dash");
+      setLoginData(finalData);
+      
     }
   
   }
@@ -57,7 +66,7 @@ function App() {
     setTimeout(()=>{
       DashboardValid();
       setData(true)
-    },1000)
+    },100)
 
   }, [])
 
@@ -69,7 +78,9 @@ function App() {
     <div className=" fixed top-0 w-full z-10 mb-10"> 
       <Header />
     </div>
-   
+   <div>
+    <Sidebar/>
+   </div>
 
     
     
