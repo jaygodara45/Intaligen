@@ -5,7 +5,8 @@ import { LoginContext } from './ContextProvider/Context';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate , NavLink } from "react-router-dom";
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -43,13 +44,24 @@ const Header = () => {
         console.log(data);
 
         if (data.msg === 'logout successful') {
-            // alert("logged out");
+            
             console.log("use logout");
+            toast.success("Logout was successful!", {
+                    position: "top-center"
+                });
             localStorage.removeItem("usersdatatoken");
-            setLoginData(false)
-            history("/");
+            
+            
+            
+              setLoginData(false)
+                history("/");
+            
+            // history("/");
         } else {
             console.log("error");
+            toast.error("User already logged out!", {
+                    position: "top-center"
+                });
         }
     }
 
@@ -121,6 +133,7 @@ const Header = () => {
           }
         </Menu>
       </nav>
+      <ToastContainer />
     </header>
   </>
 );

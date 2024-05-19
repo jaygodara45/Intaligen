@@ -97,6 +97,9 @@ const Login = () => {
             if (res.status === "pass") {
                 localStorage.setItem("usersdatatoken", resone.token);
                 history("/dash");
+                toast.success("Login was successful!", {
+                    position: "top-center"
+                });
                 setInpval({ ...inpval, email: "", password: "" });
             } else {
                 toast.error("Invalid credentials!", {
