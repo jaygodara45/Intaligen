@@ -1,7 +1,7 @@
 import React, { useContext, useEffect ,useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from './ContextProvider/Context';
-// import Sidebar from './Sidebar';
+import Sidebar from './Sidebar';
 
 const Dashboard = () => {
 
@@ -89,12 +89,9 @@ const Dashboard = () => {
     
   <>
     {data.message!="Internal Server Error" ? (
-      
-      
-       
-      <div className="flex flex-col items-center">
-        <img src="man.png" className="w-48 mt-8" alt="" />
-        <h1 className="mt-4">User Email: {logindata ? logindata.ValidUserOne.email : ""}</h1>
+      <div>
+        <div>Dash is here</div>
+        <Sidebar/>
       </div>
       
     ) : (

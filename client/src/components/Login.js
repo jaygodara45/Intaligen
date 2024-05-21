@@ -149,6 +149,7 @@ const Login = () => {
                         </div>
 
                         <button className="font-sans btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full">Login</button>
+                        
 
                         <p className="font-sans text-sm mt-4 text-center">Don't have an Account? <NavLink to="/register" className="text-violet-500">Sign Up</NavLink> </p>
                     </form>

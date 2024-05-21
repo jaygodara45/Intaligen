@@ -78,9 +78,9 @@ function App() {
     <div className=" fixed top-0 w-full z-10 mb-10"> 
       <Header />
     </div>
-   <div>
+   {/* <div>
     <Sidebar/>
-   </div>
+   </div> */}
 
     
     
