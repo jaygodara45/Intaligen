@@ -60,7 +60,7 @@ const Dashboard = () => {
     console.log(data.message);
     if (data.message === "Internal Server Error") {
       console.log("User not valid");
-      history("/");
+      // history("/");
        
     } else {
       const finalData = {
@@ -90,7 +90,7 @@ const Dashboard = () => {
   <>
     {data.message!="Internal Server Error" ? (
       <div>
-        <div>Dash is here</div>
+        <div>Dashboard is here!</div>
         <Sidebar/>
       </div>
       

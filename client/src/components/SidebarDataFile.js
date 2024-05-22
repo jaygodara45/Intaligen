@@ -16,7 +16,7 @@ export const datas = [
         id: 2,
         icon: <MdInsights style={{ color: 'white' }} />,
         text: "Production planning",
-        route: "/prodplan"
+        route: "/productionchartsnew"
     },
     {
         id: 3,
@@ -26,33 +26,39 @@ export const datas = [
     },
     {
         id: 4,
+        icon: <RiCouponLine style={{ color: 'white' }} />,
+        text: "Production departments",
+        route: "/workstation_console"
+    },
+    {
+        id: 5,
         icon: <BsWallet2 style={{ color: 'white' }} />,
         text: "Inventory",
         route: "/inventory"
     },
     {
-        id: 5,
+        id: 6,
         icon: <AiOutlineMessage style={{ color: 'white' }} />,
         text: "Material planning",
         route: "/material-planning"
     },
     {
-        id: 6,
+        id: 7,
         icon: <BsFolder style={{ color: 'white' }} />,
         text: "Purchases",
         route: "/purchases"
     },
     {
-        id: 7,
+        id: 8,
         icon: <FiUser style={{ color: 'white' }} />,
         text: "Admin",
         route: "/admin"
     },
     {
-        id: 8,
+        id: 9,
         icon: <BsWallet2 style={{ color: 'white' }} />,
         text: "Master data",
-        route: "/master-data"
+        route: "/masterDataDashboard"
     },
     // {
     // id: 8,

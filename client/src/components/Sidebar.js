@@ -58,15 +58,15 @@ import { LoginContext } from './ContextProvider/Context';
 
 const Sidebar = () => {
   const { logindata, setLoginData } = useContext(LoginContext);
-  if (logindata.ValidUserOne){
+  if (!logindata.ValidUserOne){
   return(
     <div className={` sidebar-container font-sans top-0 left-0`}>
         
         
         <SidebarData/>
-        {/* <div className='absolute top-[7rem] flex justify-center items-center -left-3 w-10 h-10 bg-blue-500 rounded-full cursor-pointer'>
+        <div className='absolute top-[7rem] flex justify-center items-center -left-3 w-10 h-10 bg-blue-500 rounded-full cursor-pointer'>
           <BiChevronLeft className={`text-3xl transition-all duration-300`} />
-        </div> */}
+        </div>
     </div>
   )
 }

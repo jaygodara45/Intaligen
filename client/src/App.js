@@ -2,7 +2,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
-import Prodplan from "./components/Prodplan";
+import Productionchartsnew from "./components/Productionchartsnew";
 import Error from "./components/Error";
 import { Routes, Route, useNavigate } from "react-router-dom"
 import { useEffect, useContext, useState } from "react";
@@ -47,7 +47,7 @@ function App() {
     console.log(data.message);
     if (data.message === "Internal Server Error") {
       console.log("User not valid app.js");
-      history("/");
+      // history("/");
        
     } 
     else {
@@ -92,7 +92,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/dash" element={<Dashboard />} />
             
-            <Route path="/prodplan" element={<Prodplan/>} />
+            <Route path="/masterDataDashboard" element={<Productionchartsnew/>} />
             <Route path="*" element={<Error />} />
 
           </Routes>
