@@ -6,7 +6,12 @@ module.exports = {
        fontFamily: {
         sans: ['Poppins', 'sans-serif'],
       },
+      colors:{
+        'custom-green': '#537e7c',
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/forms"),
+  ],
 };

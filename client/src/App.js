@@ -7,8 +7,9 @@ import Error from "./components/Error";
 import { Routes, Route, useNavigate } from "react-router-dom"
 import { useEffect, useContext, useState } from "react";
 import { LoginContext } from "./components/ContextProvider/Context";
-
 import Sidebar from "./components/Sidebar";
+import Labors from "./Labors";
+import Items from "./Items";
 
 function App() {
 
@@ -91,7 +92,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dash" element={<Dashboard />} />
-            
+            <Route path="/labors" element={<Labors />} />
+            <Route path="/items" element={<Items />} />
             <Route path="/masterDataDashboard" element={<Productionchartsnew/>} />
             <Route path="*" element={<Error />} />
 

@@ -20,7 +20,7 @@ const Productionchartsnew = () => {
         <Sidebar/>
         <div className="absolute right-0 w-[80%] h-auto flex flex-row flex-wrap px-10 py-10">
           <Mastercard name="Items" imageSrc="items.png" route="/items"/>
-          <Mastercard name="Resources" imageSrc="resources.png" route="/items"/>
+          <Mastercard name="Resources" imageSrc="resources.png" route="/labors"/>
           <Mastercard name="Business P.." imageSrc="partners.png" route="/items"/>
           <Mastercard name="Categories" imageSrc="categories.png" route="/items"/>
           
