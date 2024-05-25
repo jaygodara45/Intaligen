@@ -1,170 +1,163 @@
-import React from 'react'
-import Tableitems, { SelectColumnFilter } from './components/Tableitems' 
-import Sidebar from "./components/Sidebar"
-const getData = () => {
-  // const data = null;
-  const data = [
-  {
-    "CODE": "P001",
-    "NAME": "Product A",
-    "STANDARD_UNIT": "pcs",
-    "JOB_RATE": 50,
-    "HSN": "123456",
-    "COST_PRICE": 30,
-    "SALE_PRICE": 70,
-    "TAX": 18,
-    "RAW_MATERIAL": "Material X",
-    "MIN_LEVEL": 100,
-    "MAX_LEVEL": 500,
-    "CONSUMPTION_MODE": "FIFO"
-  },
-  {
-    "CODE": "P002",
-    "NAME": "Product B",
-    "STANDARD_UNIT": "kg",
-    "JOB_RATE": 75,
-    "HSN": "234567",
-    "COST_PRICE": 40,
-    "SALE_PRICE": 90,
-    "TAX": 12,
-    "RAW_MATERIAL": "Material Y",
-    "MIN_LEVEL": 50,
-    "MAX_LEVEL": 300,
-    "CONSUMPTION_MODE": "LIFO"
-  },
-  {
-    "CODE": "P003",
-    "NAME": "Product C",
-    "STANDARD_UNIT": "liters",
-    "JOB_RATE": 60,
-    "HSN": "345678",
-    "COST_PRICE": 20,
-    "SALE_PRICE": 50,
-    "TAX": 5,
-    "RAW_MATERIAL": "Material Z",
-    "MIN_LEVEL": 200,
-    "MAX_LEVEL": 600,
-    "CONSUMPTION_MODE": "FIFO"
-  },
-  {
-    "CODE": "P004",
-    "NAME": "Product D",
-    "STANDARD_UNIT": "meters",
-    "JOB_RATE": 100,
-    "HSN": "456789",
-    "COST_PRICE": 50,
-    "SALE_PRICE": 120,
-    "TAX": 18,
-    "RAW_MATERIAL": "Material W",
-    "MIN_LEVEL": 10,
-    "MAX_LEVEL": 100,
-    "CONSUMPTION_MODE": "FIFO"
-  },
-  {
-    "CODE": "P005",
-    "NAME": "Product E",
-    "STANDARD_UNIT": "boxes",
-    "JOB_RATE": 85,
-    "HSN": "567890",
-    "COST_PRICE": 60,
-    "SALE_PRICE": 140,
-    "TAX": 28,
-    "RAW_MATERIAL": "Material V",
-    "MIN_LEVEL": 30,
-    "MAX_LEVEL": 200,
-    "CONSUMPTION_MODE": "LIFO"
-  }
-]
-
-  return [...data, ...data, ...data]
-}
+import React, { useState, useEffect, useContext } from 'react';
+import Tableitems from './components/Tableitems';
+import Sidebar from "./components/Sidebar";
+import { LoginContext } from './components/ContextProvider/Context';
+import { FaPencilAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import ImportIcon from '@mui/icons-material/ImportExport';
+import PlusIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AddItemForm from './components/AddItemForm';
+import { toast } from 'react-toastify';
 
 export default function Items() {
+  const { logindata } = useContext(LoginContext);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editModes, setEditModes] = useState({});
+  const [open, setOpen] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      let token = localStorage.getItem("usersdatatoken");
+      console.log(token);
+      const response = await fetch("/ListItems", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+        body: JSON.stringify({
+          "filters": [],
+          "filter_type": ""
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setData(result.items);
+        setLoading(false);
+      } else {
+        console.error('Failed to fetch data');
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleEditClick = (rowIndex) => {
+    setEditModes(prevEditModes => ({
+      ...prevEditModes,
+      [rowIndex]: !prevEditModes[rowIndex]
+    }));
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleFormSubmit = async (formData) => {
+    try {
+      const response = await fetch("/AddItem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("usersdatatoken"),
+        },
+        body: JSON.stringify({
+          "p_code": formData.code,
+          "p_name": formData.itemName,
+          "p_rate": formData.jobRate,
+          "p_unit": formData.fundamentalUnit,
+          "p_flag": formData.bom ? "YES" : "NO",
+          "pf_cost_price": formData.costPrice,
+          "pf_sale_price": formData.salePrice,
+          "pf_tax": formData.taxPercentage,
+          "pf_hsn": formData.hsnCode
+        })
+      });
+      const res = await response.json();
+      if (res.message === "iteminfo") {
+        toast.success("Item added.", { position: "top-center" });
+        fetchData(); // Re-fetch the data to update the list
+      } else {
+        toast.info(res.message, { position: "top-center" });
+      }
+    } catch (error) {
+      toast.error("Error!!", { position: "top-center" });
+    }
+  };
 
   const columns = React.useMemo(() => [
-  {
-    "Header": "Code",
-    "accessor": "CODE"
-  },
-  {
-    "Header": "Name",
-    "accessor": "NAME"
-  },
-  {
-    "Header": "Standard Unit",
-    "accessor": "STANDARD_UNIT"
-  },
-  {
-    "Header": "Job Rate",
-    "accessor": "JOB_RATE"
-  },
-  {
-    "Header": "HSN",
-    "accessor": "HSN"
-  },
-  {
-    "Header": "Cost Price",
-    "accessor": "COST_PRICE"
-  },
-  {
-    "Header": "Sale Price",
-    "accessor": "SALE_PRICE"
-  },
-  {
-    "Header": "Tax",
-    "accessor": "TAX"
-  },
-  {
-    "Header": "Raw Material",
-    "accessor": "RAW_MATERIAL"
-  },
-  {
-    "Header": "Min Level",
-    "accessor": "MIN_LEVEL"
-  },
-  {
-    "Header": "Max Level",
-    "accessor": "MAX_LEVEL"
-  },
-  {
-    "Header": "Consumption Mode",
-    "accessor": "CONSUMPTION_MODE",
-    // "Filter": "SelectColumnFilter",
-    "filter": "includes"
+    { "Header": "Registration Date", "accessor": "regdate" },
+    { "Header": "Raw Flag", "accessor": "raw_flag" },
+    { "Header": "Data ID", "accessor": "data_id" },
+    { "Header": "Code", "accessor": "code" },
+    { "Header": "Name", "accessor": "name" },
+    { "Header": "Unit", "accessor": "unit" },
+    { "Header": "ID", "accessor": "id" },
+    { "Header": "Rate", "accessor": "rate" },
+    {
+      "Header": "Edit",
+      "Cell": ({ row }) => (
+        <div className="flex items-center">
+          {editModes[row.index] ? (
+            <>
+              <FaCheck className="text-green-500 mr-2 cursor-pointer" onClick={() => handleEditClick(row.index)} />
+              <FaTimes className="text-red-500 cursor-pointer" onClick={() => handleEditClick(row.index)} />
+            </>
+          ) : (
+            <FaPencilAlt className="cursor-pointer" onClick={() => handleEditClick(row.index)} />
+          )}
+        </div>
+      )
+    }
+  ], [editModes]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-]
-, [])
 
-  const data = React.useMemo(() => getData(), [])
-  
   return (
-    // <div className="min-h-screen bg-blue-100 text-gray-900">
-    //   <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        // <div>
-          // {/* <Sidebar/> */}
-        // {/* <div className="mt-4 ">
-        //   <Tableitems columns={columns} data={data}/>
-        // </div> */}
-        // </div>
-    //   </main>
-    // </div>
-
     <div className="w-full h-[90vh] mt-0 flex flex-col">
-          
-        <Sidebar/>
-        <div className="h-[90%] overflow-y-auto absolute right-0 w-[80%] px-10 py-10">
+      <Sidebar />
+      <div className="h-[90%] overflow-y-auto absolute right-0 w-[80%] px-10 py-10">
+        <div className='flex flex-row'>
           <h1 className='text-4xl font-sans'>LIST OF ITEMS</h1>
-          <div className="ml-15 flex flex-col mt-5"> 
-                <div className='flex flex-row'>
-                <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Add new item</button>
-                <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-teal-600 to-purple-400 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Import items</button>
-                <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-teal-600 to-purple-400 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Import BOM</button>
-               
-                </div>
-                <Tableitems columns={columns} data={data}/>
+          <div className='absolute right-10'>
+            <Tooltip title="Add new item">
+              <IconButton onClick={handleClickOpen}>
+                <PlusIcon className='text-custom-green' fontSize="large" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Add new item">
+              <IconButton>
+                <ImportIcon className='text-custom-green' fontSize="large" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Add new item">
+              <IconButton>
+                <ImportIcon className='text-custom-green' fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          </div>
         </div>
+        <div className="ml-15 flex flex-col mt-5">
+          <Tableitems columns={columns} data={data} />
         </div>
-        </div>
+      </div>
+
+      <AddItemForm open={open} handleClose={handleClose} handleFormSubmit={handleFormSubmit} fetchData={fetchData} />
+    </div>
   );
 }
-
