@@ -68,7 +68,7 @@ const getData = () => {
   return [...data, ...data, ...data]
 }
 
-export default function Labors() {
+export default function Partners() {
 
   const columns = React.useMemo(() => [
     {
@@ -113,10 +113,10 @@ export default function Labors() {
           
         <Sidebar/>
         <div className="absolute right-0 w-[80%] h-[90%] overflow-y-auto px-10 py-10">
-          <h1 className='text-4xl font-sans'>LIST OF RESOURCES</h1>
+          <h1 className='text-4xl font-sans'>LIST OF BUSINESS PARTNERS</h1>
           <div className="ml-15 flex flex-col mt-5"> 
                 <div className='flex flex-row'>
-                <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Add new resource</button>
+                <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-purple-400 to-teal-600 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Add new partner</button>
                 <button  className="mr-5 w-48 mt-1 font-sans btn bg-gradient-to-r from-teal-600 to-purple-400 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">Import from Excel</button>
                 </div>
                 <Tableitems columns={columns} data={data}/>

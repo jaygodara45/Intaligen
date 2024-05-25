@@ -13,7 +13,7 @@ const SidebarData = () => {
                 return (
                     <div 
                         key={data.id} 
-                        className='sidebar last:absolute left-4 bottom-4 flex items-center cursor-pointer' 
+                        className='sidebar left-4 bottom-4 flex items-center cursor-pointer' 
                         onClick={() => navigate(data.route)}
                     >
                         <div className='mr-5 text-[1.3rem] text-brown'>{data.icon}</div>

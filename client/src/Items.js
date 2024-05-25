@@ -149,10 +149,10 @@ export default function Items() {
     //   </main>
     // </div>
 
-    <div className="w-full h-[100%] mt-0 flex flex-col">
+    <div className="w-full h-[90vh] mt-0 flex flex-col">
           
         <Sidebar/>
-        <div className="absolute right-0 w-[80%] h-auto  px-10 py-10">
+        <div className="h-[90%] overflow-y-auto absolute right-0 w-[80%] px-10 py-10">
           <h1 className='text-4xl font-sans'>LIST OF ITEMS</h1>
           <div className="ml-15 flex flex-col mt-5"> 
                 <div className='flex flex-row'>

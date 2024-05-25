@@ -10,6 +10,8 @@ import { LoginContext } from "./components/ContextProvider/Context";
 import Sidebar from "./components/Sidebar";
 import Labors from "./Labors";
 import Items from "./Items";
+import Partners from "./Partners";
+import Categories from "./Categories";
 
 function App() {
 
@@ -95,6 +97,8 @@ function App() {
             <Route path="/labors" element={<Labors />} />
             <Route path="/items" element={<Items />} />
             <Route path="/masterDataDashboard" element={<Productionchartsnew/>} />
+             <Route path="/partners" element={<Partners />} />
+             <Route path="/categories" element={<Categories />} />
             <Route path="*" element={<Error />} />
 
           </Routes>
